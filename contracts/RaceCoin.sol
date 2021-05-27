@@ -6,6 +6,7 @@ contract RaceCoin {
   struct Race {
     string name;
     int maxParticipants;
+    uint startingTime;
   }
 
   struct Result {
@@ -19,13 +20,14 @@ contract RaceCoin {
   mapping(string => bool) eventNames;
   Race[] events;
 
-  function createRace(string memory raceName, int maxParticipants) public {
+  function createRace(string memory raceName, int maxParticipants, uint startingTime) public {
     require(eventNames[raceName] == false, 'A race with this name already exists');
 
     eventNames[raceName] = true;
     events.push(Race({
       name: raceName,
-      maxParticipants: maxParticipants
+      maxParticipants: maxParticipants,
+      startingTime: startingTime
     }));
   }
 

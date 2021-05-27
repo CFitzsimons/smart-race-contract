@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -24,10 +25,12 @@ const createEvent = async (contract, event) => {
   const gas = await contract.methods.createRace(
     event.title,
     event.maxParticipants,
+    event.start,
   ).estimateGas();
   await contract.methods.createRace(
     event.title,
     event.maxParticipants,
+    event.start,
   ).send({
     from: account,
     gas,
@@ -43,7 +46,9 @@ const Events = (props) => {
     } = props;
     await createEvent(contract, event);
     setShowModal(false);
+    props.refreshEvents();
   };
+  console.log(props.events);
   return (
     <div className={classes.root}>
       <EventModal isOpen={showModal} closeModal={() => setShowModal(false)} createEvent={onCreateEvent} />
@@ -52,7 +57,7 @@ const Events = (props) => {
           props.events.map((event) => (
             <Grid item xs={4}>
               <Card className={classes.card}>
-                <CardHeader title={event.name} subheader={`Spaces limited to ${event.max}`} />
+                <CardHeader title={event.name} subheader={moment(event.start).format('M/D/YYYY H:mm')} />
               </Card>
             </Grid>
           ))
