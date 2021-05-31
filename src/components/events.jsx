@@ -6,8 +6,10 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import EventModal from './eventModal';
 import { Button, CardContent } from '@material-ui/core';
+import PropTypes from 'prop-types';
+
+import EventModal from './eventModal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,7 +40,8 @@ const createEvent = async (contract, event) => {
       gas,
     });
   } catch (err) {
-    alert(err);
+    // TODO: Handle failed events
+    // https://github.com/CFitzsimons/smart-race-contract/issues/1
   }
 };
 
@@ -58,16 +61,18 @@ const signup = async (contract, raceName) => {
 };
 
 const Events = (props) => {
+  const {
+    contract,
+    refreshEvents,
+    events,
+  } = props;
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
   const [myEvents, setMyEvents] = useState([]);
   const onCreateEvent = async (event) => {
-    const {
-      contract,
-    } = props;
     await createEvent(contract, event);
     setShowModal(false);
-    props.refreshEvents();
+    refreshEvents();
   };
   useEffect(() => {
     (async () => {
@@ -80,10 +85,14 @@ const Events = (props) => {
   };
   return (
     <div className={classes.root}>
-      <EventModal isOpen={showModal} closeModal={() => setShowModal(false)} createEvent={onCreateEvent} />
+      <EventModal
+        isOpen={showModal}
+        closeModal={() => setShowModal(false)}
+        createEvent={onCreateEvent}
+      />
       <Grid container spacing={3} style={{ width: '100%', height: '100%' }}>
         {
-          props.events.map((event) => (
+          events.map((event) => (
             <Grid item xs={4}>
               <Card className={classes.card}>
                 <CardHeader title={event.name} subheader={moment(event.start).format('M/D/YYYY H:mm')} />
@@ -104,6 +113,19 @@ const Events = (props) => {
       </Fab>
     </div>
   );
+};
+
+Events.propTypes = {
+  contract: PropTypes.shapeOf({}).isRequired,
+  refreshEvents: PropTypes.func.isRequired,
+  events: PropTypes.arrayOf(PropTypes.shape({
+    start: PropTypes.number,
+    name: PropTypes.string,
+  })),
+};
+
+Events.defaultProps = {
+  events: [],
 };
 
 export default Events;
