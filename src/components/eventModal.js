@@ -45,6 +45,9 @@ const EventModal = (props) => {
       maxParticipants: max,
       start: +start,
     });
+    setTitle('');
+    setMax('');
+    setStart(moment());
   };
   return (
     <Modal open={props.isOpen} onClose={props.closeModal}>

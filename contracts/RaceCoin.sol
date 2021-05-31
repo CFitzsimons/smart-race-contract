@@ -8,7 +8,7 @@ contract RaceCoin {
     int maxParticipants;
     uint startingTime;
   }
-
+  
   struct Result {
     uint time;
     address participant;
@@ -18,6 +18,7 @@ contract RaceCoin {
 
   mapping(string => Result[]) results;
   mapping(string => bool) eventNames;
+  mapping(address => string[]) myEvents;
   Race[] events;
 
   function createRace(string memory raceName, int maxParticipants, uint startingTime) public {
@@ -33,5 +34,18 @@ contract RaceCoin {
 
   function currentRaces() public view returns (Race[] memory) {
     return events;
+  }
+
+  function signup(string memory raceName) public {
+    require(eventNames[raceName] == true, 'You can only sign up to an existing race');
+    results[raceName].push(Result({
+      time: 0,
+      participant: msg.sender
+    }));
+    myEvents[msg.sender].push(raceName);
+  }
+
+  function getUserEvents() public view returns (string[] memory) {
+    return myEvents[msg.sender];
   }
 }

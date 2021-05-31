@@ -1,5 +1,3 @@
-const HDWalletProvider = require("truffle-hdwallet-provider");
-const fs = require("fs");
 module.exports = {
   contracts_build_directory: './src/contractInterfaces',
   networks: {

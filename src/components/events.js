@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import EventModal from './eventModal';
+import { Button, CardContent } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,16 +23,35 @@ const useStyles = makeStyles((theme) => ({
 const createEvent = async (contract, event) => {
   const accounts = await window.ethereum.enable();
   const account = accounts[0];
-  const gas = await contract.methods.createRace(
-    event.title,
-    event.maxParticipants,
-    event.start,
-  ).estimateGas();
-  await contract.methods.createRace(
-    event.title,
-    event.maxParticipants,
-    event.start,
-  ).send({
+  try {
+    const gas = await contract.methods.createRace(
+      event.title,
+      event.maxParticipants,
+      event.start,
+    ).estimateGas();
+    await contract.methods.createRace(
+      event.title,
+      event.maxParticipants,
+      event.start,
+    ).send({
+      from: account,
+      gas,
+    });
+  } catch (err) {
+    alert(err);
+  }
+};
+
+const getUserEvents = async (contract) => {
+  const userEvents = await contract.methods.getUserEvents().call();
+  return userEvents;
+};
+
+const signup = async (contract, raceName) => {
+  const accounts = await window.ethereum.enable();
+  const account = accounts[0];
+  const gas = await contract.methods.signup(raceName).estimateGas();
+  await contract.methods.signup(raceName).send({
     from: account,
     gas,
   });
@@ -40,6 +60,7 @@ const createEvent = async (contract, event) => {
 const Events = (props) => {
   const classes = useStyles();
   const [showModal, setShowModal] = useState(false);
+  const [myEvents, setMyEvents] = useState([]);
   const onCreateEvent = async (event) => {
     const {
       contract,
@@ -48,7 +69,15 @@ const Events = (props) => {
     setShowModal(false);
     props.refreshEvents();
   };
-  console.log(props.events);
+  useEffect(() => {
+    (async () => {
+      setMyEvents(await getUserEvents(props.contract));
+    })();
+  });
+  const register = async (raceName) => {
+    await signup(props.contract, raceName);
+    setMyEvents(await getUserEvents(props.contract));
+  };
   return (
     <div className={classes.root}>
       <EventModal isOpen={showModal} closeModal={() => setShowModal(false)} createEvent={onCreateEvent} />
@@ -58,6 +87,13 @@ const Events = (props) => {
             <Grid item xs={4}>
               <Card className={classes.card}>
                 <CardHeader title={event.name} subheader={moment(event.start).format('M/D/YYYY H:mm')} />
+                <CardContent style={{ float: 'right' }}>
+                  {
+                    myEvents.some((raceName) => raceName === event.name) ? (
+                      <Button variant="contained">Deregister</Button>
+                    ) : (<Button onClick={() => register(event.name)} variant="contained">Register</Button>)
+                  }
+                </CardContent>
               </Card>
             </Grid>
           ))
