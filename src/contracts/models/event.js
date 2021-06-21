@@ -2,12 +2,12 @@ import smartContract from './contract';
 
 const {
   getContract,
+  getAccount,
 } = smartContract;
 
 const createEvent = async (event) => {
   const contract = getContract();
-  const accounts = await window.ethereum.enable();
-  const account = accounts[0];
+  const account = await getAccount();
   try {
     const gas = await contract.methods.createRace(
       event.title,
@@ -28,10 +28,25 @@ const createEvent = async (event) => {
   }
 };
 
+// const getEventsCreatedByMe = async () => {
+//   const contract = await getContract();
+//   console.log(contract.methods);
+//   const results = await contract.methods.racesRunByMe().call();
+//   return results;
+// };
+
 const getEvents = async () => {
   const contract = await getContract();
-  const results = contract.methods.currentRaces().call();
-  return results;
+  const account = await getAccount();
+  const results = await contract.methods.currentRaces().call();
+  const transformedResults = results.map((result) => ({
+    isCreator: result[0].toLowerCase() === account.toLowerCase(),
+    creator: result[0],
+    name: result[1],
+    max: parseInt(result[2], 10),
+    start: parseInt(result[3], 10),
+  }));
+  return transformedResults;
 };
 
 const getUserEvents = async () => {

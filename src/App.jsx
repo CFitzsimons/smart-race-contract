@@ -17,11 +17,7 @@ const App = () => {
   const refresh = async () => {
     const results = await event.getEvents();
     setEvents(
-      results.map((result) => ({
-        name: result[0],
-        max: parseInt(result[1], 10),
-        start: parseInt(result[2], 10),
-      })),
+      results,
     );
   };
   const authenticate = async (contractAddress) => {

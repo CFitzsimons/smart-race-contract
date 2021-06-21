@@ -4,6 +4,7 @@ pragma solidity >=0.8.0;
 contract RaceCoin {
 
   struct Race {
+    address creator;
     string name;
     int maxParticipants;
     uint startingTime;
@@ -18,7 +19,7 @@ contract RaceCoin {
 
   mapping(string => Result[]) results;
   mapping(string => bool) eventNames;
-  mapping(address => string[]) myEvents;
+  mapping(address => string[]) myEvents; // Events signed up to
   Race[] events;
 
   function createRace(string memory raceName, int maxParticipants, uint startingTime) public {
@@ -26,10 +27,21 @@ contract RaceCoin {
 
     eventNames[raceName] = true;
     events.push(Race({
+      creator: msg.sender,
       name: raceName,
       maxParticipants: maxParticipants,
       startingTime: startingTime
     }));
+  }
+
+  function racesRunByMe() public view returns (Race[] memory) {
+    Race[] memory racesCreatedByMe;
+    for (uint i = 0; i < events.length; i++) {
+      if (events[i].creator == msg.sender) {
+        racesCreatedByMe[i] = events[i];
+      }
+    }
+    return racesCreatedByMe;
   }
 
   function currentRaces() public view returns (Race[] memory) {

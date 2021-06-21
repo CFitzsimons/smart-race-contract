@@ -1,5 +1,5 @@
 module.exports = {
-  contracts_build_directory: './src/contractInterfaces',
+  contracts_build_directory: './src/contracts/interfaces',
   networks: {
     dev: {
       network_id: '*',

@@ -60,6 +60,11 @@ const Events = (props) => {
                 <CardHeader title={race.name} subheader={moment(race.start).format('M/D/YYYY H:mm')} />
                 <CardContent style={{ float: 'right' }}>
                   {
+                    race.isCreator ? (
+                      <Button variant="contained" style={{ marginRight: '5px' }}>Edit</Button>
+                    ) : null
+                  }
+                  {
                     myRaces.some((raceName) => raceName === race.name) ? (
                       <Button variant="contained">Deregister</Button>
                     ) : (<Button onClick={() => register(race.name)} variant="contained">Register</Button>)
