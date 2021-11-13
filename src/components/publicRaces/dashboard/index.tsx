@@ -3,15 +3,13 @@ import { Box } from '@mui/system';
 
 import EventCard from './eventCard';
 
-const Dashboard = () => {
-  const events = [{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' },{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' },{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' },{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' },{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' },{ name: 'The Great Santa Race', description: 'A fantastic race through the heart of Kildare.' }];
-
+const Dashboard = ({ events }: { events: any[] }) => {
   return (
     <Box>
       <Grid container spacing={4} style={{ padding: 10 }}>
       {
         events.map((event) => (
-          <Grid item xs={12} md={3}>
+          <Grid key={event.name} item xs={12} md={3}>
             <EventCard name={event.name} description={event.description} />
           </Grid>
         ))
