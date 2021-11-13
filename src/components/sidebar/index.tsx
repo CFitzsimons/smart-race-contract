@@ -14,7 +14,7 @@ import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import modalActions from '../../actions/modal'
 import PublicIcon from '@mui/icons-material/Public';
 import Event from '@mui/icons-material/Event';
-import ChevronRightIcon from '@mui/icons-material/ChevronRight';
+import CloseIcon from '@mui/icons-material/Close';
 import Logo from '../../img/smart_events.png';
 
 const navigation = [
@@ -33,6 +33,7 @@ const Sidebar = () => {
   const dispatcher = useDispatch();
   return (
     <Drawer variant="persistent" open={drawerIsOpen}>
+      <Toolbar />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}>
         <IconButton
           color="inherit"
@@ -40,11 +41,10 @@ const Sidebar = () => {
           edge="start"
           onClick={() => dispatcher(modalActions.toggle())}
         >
-          <ChevronRightIcon />
+          <CloseIcon />
         </IconButton>
       </div>
       <img src={Logo} alt="logo graphic for sidebar header" />
-      <Toolbar />
       <Divider />
       <Box>
         <List>
