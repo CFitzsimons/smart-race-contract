@@ -1,14 +1,12 @@
 import React from 'react';
 import { Provider } from 'react-redux'
+import CssBaseline from '@mui/material/CssBaseline';
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
-// import ThemeProvider from '@mui/material/'
 import {
   BrowserRouter,
   Routes,
   Route
 } from "react-router-dom"
-
-import './App.css';
 
 import Sidebar from './components/sidebar';
 import TopBar from './components/topbar';
@@ -24,27 +22,20 @@ const darkTheme = createTheme({
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
-const MainView = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-}));
-
-
 const App = () => (
   <ThemeProvider theme={darkTheme}>
     <Provider store={store}>
       <TopBar />
       <Sidebar />
       <Offset />
-      <MainView>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<PublicDashboard />} />
-          </Routes>
-        </BrowserRouter>
-      </MainView>
+      <CssBaseline />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<PublicDashboard />} />
+        </Routes>
+      </BrowserRouter>
     </Provider>
   </ThemeProvider>
-
 );
 
 export default App;
