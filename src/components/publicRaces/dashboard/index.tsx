@@ -1,7 +1,7 @@
 import Grid from '@mui/material/Grid';
 import { Box } from '@mui/system';
 
-import EventCard from './eventCard';
+import EventCard from './eventCard/eventCard';
 
 const Dashboard = ({ events }: { events: any[] }) => (
   <Box>
