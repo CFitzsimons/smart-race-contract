@@ -1,12 +1,7 @@
-import React from 'react';
-import { Provider } from 'react-redux'
+import { Provider } from 'react-redux';
 import CssBaseline from '@mui/material/CssBaseline';
 import { styled, ThemeProvider, createTheme } from '@mui/material/styles';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom"
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Sidebar from './components/sidebar';
 import TopBar from './components/topbar';
@@ -22,6 +17,8 @@ const darkTheme = createTheme({
 
 const Offset = styled('div')(({ theme }) => theme.mixins.toolbar);
 
+const events = [{ name: 'Some name', description: 'Some desc' }];
+
 const App = () => (
   <ThemeProvider theme={darkTheme}>
     <Provider store={store}>
@@ -31,7 +28,7 @@ const App = () => (
       <CssBaseline />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<PublicDashboard />} />
+          <Route path="/" element={<PublicDashboard events={events} />} />
         </Routes>
       </BrowserRouter>
     </Provider>

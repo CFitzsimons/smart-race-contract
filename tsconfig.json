@@ -21,6 +21,10 @@
     "jsx": "react-jsx"
   },
   "include": [
-    "src"
+    "src",
+    "test",
+    "migrations",
+    ".eslintrc.js",
+    "truffle-config.js",
   ]
 }

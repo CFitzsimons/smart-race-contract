@@ -12,14 +12,14 @@ const initialState = {
 
 const toggleDrawer = (state: InitialState) => ({
   ...state,
-  drawer: !state.drawer
+  drawer: !state.drawer,
 });
 
 const reducers: { [key: string]: any } = {
-  'TOGGLE_DRAWER': toggleDrawer,
+  TOGGLE_DRAWER: toggleDrawer,
 };
 
-const modalReducer = (state = initialState, { type }: Action) => {
+const modalReducer = (state = initialState, { type }: Action = { type: '' }) => {
   const action = reducers[type];
 
   if (action) {
