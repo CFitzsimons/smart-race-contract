@@ -15,15 +15,15 @@ export class WalletService {
   }
 
   connect() {
-    this.wallet = new ethers.Wallet('0xe9aff276a5783a383b08e375df0c74b167b56d75086749f2bb1e1c8862d56df6', this.provider);
-    this.wallet.getBalance()
-      .then((bal) => {
-        console.log('Balance:', bal.toString());
-      })
+    this.wallet = new ethers.Wallet('0xed6c60ad103ee08684b76e486ab9332453132ad21681d251833da5dfee450ea9', this.provider);
   }
 
   disconnect() {
 
+  }
+
+  getBalance() {
+    return this.wallet.getBalance();
   }
 
   isConnected() {

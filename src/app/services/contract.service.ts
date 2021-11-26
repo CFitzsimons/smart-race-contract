@@ -13,10 +13,7 @@ export class ContractService {
 
   private connect() {
     const wallet = this.walletService.getWallet();
-    // const provider = this.walletService.getProvider();
-    // const signer = this.walletService.getSigner();
-    this.contract = new ethers.Contract('0x3209Cde3E891A9DCaAe0053fFDF1DE646E688b93', ContractABI.abi, wallet);
-    // this.contract = this.contract.connect(wallet);
+    this.contract = new ethers.Contract('0x70F43D8E875cFC047a3e77Cb3b623EAaf36d422d', ContractABI.abi, wallet);
   }
   async getEvents() {
     if (!this.contract) {
