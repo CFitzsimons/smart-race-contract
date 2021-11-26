@@ -15,16 +15,19 @@ export class WalletService {
   }
 
   connect() {
-    this.wallet = new ethers.Wallet('3c83e23d48bad20e5ec85bda0e3c61a477a2e403504b8447338353bbd6ab84c6', this.provider);
+    this.wallet = new ethers.Wallet('0xe9aff276a5783a383b08e375df0c74b167b56d75086749f2bb1e1c8862d56df6', this.provider);
     this.wallet.getBalance()
       .then((bal) => {
-        console.log(bal.toString());
+        console.log('Balance:', bal.toString());
       })
-    // this.signer = this.provider.getSigner();
   }
 
   disconnect() {
 
+  }
+
+  isConnected() {
+    return !!this.wallet;
   }
 
   getWallet() {

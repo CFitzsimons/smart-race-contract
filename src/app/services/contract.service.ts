@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, } from '@angular/core';
 import { WalletService } from './wallet.service';
+import { CanActivate } from '@angular/router';
 import { ethers } from 'ethers';
 const ContractABI = require('../../contractInterfaces/RaceCoin.json');
 
@@ -14,7 +15,7 @@ export class ContractService {
     const wallet = this.walletService.getWallet();
     // const provider = this.walletService.getProvider();
     // const signer = this.walletService.getSigner();
-    this.contract = new ethers.Contract('0x7f9E1Fa87E069b800b31b4Af2d7Af3706Eb769a7', ContractABI.abi, wallet);
+    this.contract = new ethers.Contract('0x3209Cde3E891A9DCaAe0053fFDF1DE646E688b93', ContractABI.abi, wallet);
     // this.contract = this.contract.connect(wallet);
   }
   async getEvents() {
