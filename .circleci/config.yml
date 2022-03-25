@@ -1,0 +1,24 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7
+
+jobs:
+  test-and-lint:
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Unit tests
+          command: npm run test-all
+      - run:
+          name: Linting
+          command: npm run lint
+
+workflows:
+  ci-checks:
+    jobs:
+      - test-and-lint
