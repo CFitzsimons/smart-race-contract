@@ -14,7 +14,7 @@ describe('EventCard', () => {
     render(<EventCard name={name} description={description} />);
 
     let foundNode = await screen.findByText(name);
-    expect(foundNode).toBeDefined();
+    expect(foundNode).toBeUndefined();
     foundNode = await screen.findByText(description);
     expect(foundNode).toBeDefined();
   });
